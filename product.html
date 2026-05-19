@@ -163,13 +163,23 @@
         </div>
     </section>
 
-    <!-- KATALOG: SEMUA PRODUK -->
+    <!-- KATALOG: SEMUA PRODUK + SEARCH BAR -->
     <section class="py-12 px-6 max-w-7xl mx-auto mb-24">
-        <div class="mb-12 border-b border-white/5 pb-8">
-            <h2 class="text-2xl md:text-3xl font-black tracking-tight font-title text-slate-900 dark:text-white leading-tight">
-                Semua <span class="highlight-text">Produk</span>
-            </h2>
-            <p class="text-sm text-slate-500 font-medium font-body mt-2">Daftar lengkap produk dari database pusat.</p>
+        <div class="mb-12 border-b border-white/5 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-black tracking-tight font-title text-slate-900 dark:text-white leading-tight">
+                    Semua <span class="highlight-text">Produk</span>
+                </h2>
+                <p class="text-sm text-slate-500 font-medium font-body mt-2">Daftar lengkap produk dari database pusat.</p>
+            </div>
+            
+            <!-- SEARCH BAR -->
+            <div class="relative w-full md:w-80">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-4 h-4 text-white/40"></i>
+                </div>
+                <input type="text" id="search-input" onkeyup="searchProducts()" class="w-full glass border border-white/10 text-white text-sm rounded-2xl focus:ring-brand-purple focus:border-brand-purple block pl-11 p-3.5 transition-colors placeholder-white/30 outline-none" placeholder="Cari nama atau deskripsi produk...">
+            </div>
         </div>
 
         <!-- PERHATIKAN ID INI: all-container -->
@@ -177,16 +187,48 @@
             <!-- Skeleton Loading -->
             <div class="glass rounded-[32px] p-6 border-white/5 h-[380px] skeleton"></div>
         </div>
+        
+        <!-- EMPTY STATE SEARCH -->
+        <div id="search-empty" class="hidden flex flex-col items-center justify-center py-20 opacity-50">
+            <i data-lucide="search-x" class="w-16 h-16 text-white/30 mb-4"></i>
+            <p class="text-sm font-bold uppercase tracking-widest text-white/50">Produk yang dicari tidak ditemukan.</p>
+        </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="pt-24 pb-12 glass border-t border-white/5 rounded-t-[70px]">
+    <footer class="pt-24 pb-32 md:pb-12 glass border-t border-white/5 rounded-t-[70px]">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <img src="https://imersnesia.com/wp-content/uploads/2026/05/logoresellerrightfinal.png" alt="Logo" class="w-24 mx-auto mb-10 drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">
             <p class="text-[12px] font-black tracking-[0.1em] opacity-40 uppercase mb-4 font-title">© 2026 Produk Reseller Right • Ecosystem iMersFireship.</p>
             <p class="text-sm text-slate-500 mb-12 max-w-md mx-auto font-body font-medium leading-relaxed italic">Ikuti harga pusat, jaga sistem, jual dengan waras.</p>
         </div>
     </footer>
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full z-[100] glass border-t border-white/10 px-6 pt-3 pb-5 flex justify-between items-end rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <a href="index.html" class="flex flex-col items-center gap-1.5 opacity-40 hover:opacity-100 transition-opacity w-12 pb-1">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[8px] font-black uppercase tracking-wider">Home</span>
+        </a>
+        <a href="product.html" class="flex flex-col items-center gap-1.5 text-brand-purple w-12 pb-1">
+            <i data-lucide="layout-grid" class="w-5 h-5 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"></i>
+            <span class="text-[8px] font-black uppercase tracking-wider">Katalog</span>
+        </a>
+        
+        <!-- Center Colorful Button -->
+        <a href="index.html#sistem" class="relative -top-6 flex flex-col items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-brand-orange via-brand-pink to-brand-purple shadow-[0_10px_20px_rgba(236,72,153,0.4)] border-[4px] border-[#070812] text-white hover:scale-105 active:scale-95 transition-transform z-10">
+            <i data-lucide="play" class="w-5 h-5 fill-white ml-0.5"></i>
+        </a>
+
+        <a href="index.html#keuntungan" class="flex flex-col items-center gap-1.5 opacity-40 hover:opacity-100 transition-opacity w-12 pb-1">
+            <i data-lucide="gem" class="w-5 h-5"></i>
+            <span class="text-[8px] font-black uppercase tracking-wider">Profit</span>
+        </a>
+        <a href="index.html#aturan" class="flex flex-col items-center gap-1.5 opacity-40 hover:opacity-100 transition-opacity w-12 pb-1">
+            <i data-lucide="shield" class="w-5 h-5"></i>
+            <span class="text-[8px] font-black uppercase tracking-wider">Aturan</span>
+        </a>
+    </div>
 
     <!-- FETCH API SCRIPT -->
     <script>
@@ -197,6 +239,9 @@
         }
 
         const API_URL = "https://script.google.com/macros/s/AKfycbwZ3r3GaNXAXHv2y4w5kNKVQPLs5CE13LhfWP3CfkMdt21xDx1Wj1GLoXsNrjAKLDJ_/exec";
+        
+        // Simpan data semua produk ke variable global agar bisa dicari
+        let globalAllProducts = [];
 
         async function fetchCatalog() {
             // Ambil DUA container HTML
@@ -213,13 +258,13 @@
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    const allProducts = result.data.products;
+                    globalAllProducts = result.data.products;
                     
                     // Bersihkan skeleton
                     featContainer.innerHTML = ""; 
                     allContainer.innerHTML = "";
 
-                    if (allProducts.length === 0) {
+                    if (globalAllProducts.length === 0) {
                         allContainer.innerHTML = '<p class="col-span-full text-center text-white/30 text-sm py-10 uppercase tracking-widest font-bold">Belum ada produk di database.</p>';
                         featContainer.innerHTML = '<p class="col-span-full text-center text-white/30 text-sm py-10 uppercase tracking-widest font-bold">-</p>';
                         updateStatus('Tidak ada data', 'text-white/40', 'database');
@@ -227,7 +272,7 @@
                     }
 
                     // Pisahin data: yang featured dan yang nggak peduli (semua)
-                    const featuredProducts = allProducts.filter(p => p.is_featured === 'TRUE' || p.is_featured === true);
+                    const featuredProducts = globalAllProducts.filter(p => p.is_featured === 'TRUE' || p.is_featured === true);
 
                     // 1. RENDER FEATURED
                     if (featuredProducts.length > 0) {
@@ -239,11 +284,11 @@
                     }
 
                     // 2. RENDER SEMUA
-                    allProducts.forEach(p => {
+                    globalAllProducts.forEach(p => {
                         allContainer.innerHTML += buildCard(p, false);
                     });
 
-                    updateStatus('Ecosystem Active', 'text-emerald-500', 'check-circle');
+                    updateStatus('Database Terhubung', 'text-emerald-500', 'check-circle');
                     initIcons();
                 } else {
                     throw new Error("Status API bukan success");
@@ -254,6 +299,41 @@
                     allContainer.innerHTML = '<p class="col-span-full text-center text-red-500 text-sm py-10 uppercase tracking-widest font-bold">Gagal terhubung ke database server.</p>';
                 }
                 updateStatus('Koneksi Gagal', 'text-red-500', 'x-circle');
+            }
+        }
+
+        // FUNGSI PENCARIAN PRODUK
+        function searchProducts() {
+            const input = document.getElementById('search-input').value.toLowerCase();
+            const allContainer = document.getElementById('all-container');
+            const emptyState = document.getElementById('search-empty');
+            
+            // Filter produk berdasarkan nama atau deskripsi
+            const filteredProducts = globalAllProducts.filter(p => {
+                const nameMatch = p.name ? p.name.toLowerCase().includes(input) : false;
+                const descMatch = p.desc ? p.desc.toLowerCase().includes(input) : false;
+                return nameMatch || descMatch;
+            });
+
+            // Kosongkan container semua produk
+            allContainer.innerHTML = "";
+            
+            if (filteredProducts.length === 0) {
+                // Jika tidak ada hasil pencarian
+                allContainer.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                // Jika ada hasil pencarian
+                allContainer.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+                
+                filteredProducts.forEach(p => {
+                    allContainer.innerHTML += buildCard(p, false);
+                });
+                
+                initIcons(); // Re-render ikon untuk elemen baru
             }
         }
 
