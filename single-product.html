@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nama Produk - Detail Produk Digital</title>
+    <title id="page-title">Loading Produk... - Reseller Rights</title>
     
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,10 +51,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Anti-Italic Global Fix */
         * { font-style: normal !important; text-transform: none !important; }
 
-        /* Smooth Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(18px);
@@ -62,7 +60,6 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* 4-Color Gradient Text */
         .highlight-text {
             background: linear-gradient(90deg, #fb923c, #ec4899, #a855f7, #38bdf8);
             -webkit-background-clip: text;
@@ -81,7 +78,6 @@
             box-shadow: 0 10px 30px -5px rgba(236, 72, 153, 0.5);
         }
 
-        /* Tab Active Styling */
         .tab-btn.active {
             color: #a855f7;
             background: rgba(168, 85, 247, 0.1);
@@ -91,23 +87,35 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.2); border-radius: 10px; }
+        
+        /* Shimmer Loading Animation */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body class="overflow-x-hidden font-sans">
 
     <!-- HEADER -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-4">
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-4 transition-all" id="navbar">
         <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-brand-purple rounded-xl flex items-center justify-center border border-white/10 shadow-lg">
                     <i data-lucide="crown" class="text-white w-5 h-5"></i>
                 </div>
-                <span class="text-lg font-black font-title tracking-tighter">Reseller <span class="highlight-text">Right</span></span>
+                <span class="text-lg font-black font-title tracking-tighter uppercase">Reseller <span class="highlight-text">Right</span></span>
             </div>
 
             <!-- Mobile Katalog Link -->
             <a href="product.html" class="text-xs font-bold opacity-50 hover:opacity-100 transition flex items-center gap-2">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i> Katalog
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Katalog
             </a>
         </div>
     </nav>
@@ -115,31 +123,41 @@
     <!-- HERO SECTION -->
     <section class="pt-40 pb-20 px-6 max-w-7xl mx-auto border-b border-white/5">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Left: Mockup Image -->
             <div class="relative group">
                 <div class="absolute inset-0 bg-brand-purple/20 blur-[100px] rounded-full"></div>
                 <div class="relative glass rounded-[40px] p-4 border-white/10 shadow-2xl overflow-hidden aspect-square flex items-center justify-center">
-                    <img src="https://via.placeholder.com/600x600/0f172a/ffffff?text=Product+Mockup" alt="Mockup Produk" class="w-4/5 h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                    <!-- Placeholder skeleton while loading -->
+                    <div id="prod-img-skeleton" class="absolute inset-0 skeleton"></div>
+                    <img id="prod-image" src="" alt="Mockup Produk" class="w-4/5 h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hidden relative z-10 transition-opacity duration-500">
                 </div>
             </div>
 
+            <!-- Right: Product Info -->
             <div class="flex flex-col">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-brand-orange text-[10px] font-black mb-8 tracking-[0.1em] border-brand-orange/20">
-                    <i data-lucide="star" class="w-3 h-3 fill-brand-orange"></i> Produk reseller right pilihan
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-brand-orange text-[10px] font-black mb-8 tracking-[0.1em] border-brand-orange/20 uppercase w-max">
+                    <i data-lucide="star" class="w-3 h-3 text-brand-orange"></i> Produk reseller right pilihan
                 </div>
                 
-                <h1 class="text-4xl md:text-6xl font-black font-title mb-6 leading-tight tracking-tighter">
-                    <span class="highlight-text">SaaS Automation</span> Kit Premium
+                <h1 id="prod-name" class="text-4xl md:text-5xl lg:text-6xl font-black font-title mb-6 leading-tight tracking-tighter">
+                    <span class="skeleton text-transparent">Memuat Data Produk...</span>
                 </h1>
-                <p class="text-white/50 text-lg font-medium leading-relaxed mb-10">
-                    Sistem otomasi bisnis paling lengkap untuk scale up distribusi produk digital lo tanpa bangun dari nol.
+                
+                <p id="prod-desc" class="text-white/50 text-lg font-medium leading-relaxed mb-10 min-h-[60px]">
+                    <span class="skeleton block w-full h-4 mb-2"></span>
+                    <span class="skeleton block w-3/4 h-4"></span>
                 </p>
 
+                <!-- Pricing & Action -->
                 <div class="glass rounded-3xl p-8 border-white/10 mb-10 flex flex-col sm:flex-row items-center justify-between gap-8">
                     <div>
-                        <p class="text-[10px] font-black opacity-30 mb-1 tracking-widest">Harga investasi</p>
-                        <p class="text-3xl font-black font-title">Rp 499.000</p>
+                        <p class="text-[10px] font-black opacity-30 mb-1 tracking-widest uppercase">Harga investasi</p>
+                        <p id="prod-price" class="text-3xl font-black font-title text-brand-pink">
+                            <span class="skeleton text-transparent">Rp 000.000</span>
+                        </p>
                     </div>
-                    <a href="#" class="w-full sm:w-auto px-10 py-5 rounded-2xl btn-gradient text-white font-black text-xs tracking-widest flex items-center justify-center gap-3 shadow-lg">
+                    <a id="prod-checkout" href="#" target="_blank" class="w-full sm:w-auto px-10 py-5 rounded-2xl btn-gradient text-white font-black text-xs tracking-widest flex items-center justify-center gap-3 shadow-lg uppercase transition-all opacity-50 pointer-events-none">
                         Dapatkan sekarang <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                     </a>
                 </div>
@@ -151,10 +169,10 @@
     <section class="py-20 px-6 max-w-5xl mx-auto">
         <!-- Tabs Menu -->
         <div class="flex flex-wrap justify-center gap-3 mb-16 p-2 glass rounded-3xl border-white/5">
-            <button onclick="switchTab('deskripsi')" id="btn-deskripsi" class="tab-btn active px-8 py-4 rounded-2xl text-[11px] font-black tracking-widest border border-transparent transition-all duration-300">Deskripsi</button>
-            <button onclick="switchTab('benefit')" id="btn-benefit" class="tab-btn px-8 py-4 rounded-2xl text-[11px] font-black tracking-widest border border-transparent transition-all duration-300">Benefit</button>
-            <button onclick="switchTab('fitur')" id="btn-fitur" class="tab-btn px-8 py-4 rounded-2xl text-[11px] font-black tracking-widest border border-transparent transition-all duration-300">Fitur</button>
-            <button onclick="switchTab('faq')" id="btn-faq" class="tab-btn px-8 py-4 rounded-2xl text-[11px] font-black tracking-widest border border-transparent transition-all duration-300">Faq</button>
+            <button onclick="switchTab('deskripsi')" id="btn-deskripsi" class="tab-btn active px-8 py-4 rounded-2xl text-[11px] uppercase font-black tracking-widest border border-transparent transition-all duration-300">Deskripsi</button>
+            <button onclick="switchTab('benefit')" id="btn-benefit" class="tab-btn px-8 py-4 rounded-2xl text-[11px] uppercase font-black tracking-widest border border-transparent transition-all duration-300">Benefit</button>
+            <button onclick="switchTab('fitur')" id="btn-fitur" class="tab-btn px-8 py-4 rounded-2xl text-[11px] uppercase font-black tracking-widest border border-transparent transition-all duration-300">Fitur</button>
+            <button onclick="switchTab('faq')" id="btn-faq" class="tab-btn px-8 py-4 rounded-2xl text-[11px] uppercase font-black tracking-widest border border-transparent transition-all duration-300">FAQ</button>
         </div>
 
         <!-- Tab Contents -->
@@ -163,103 +181,40 @@
             <!-- Deskripsi Tab -->
             <div id="content-deskripsi" class="tab-content block animate-in">
                 <h2 class="text-2xl font-black font-title mb-8 highlight-text">Tentang produk ini</h2>
-                <div class="prose prose-invert max-w-none mb-16">
-                    <p class="text-white/50 leading-relaxed font-medium mb-6">
-                        Produk ini dirancang khusus untuk mempermudah distribusi digital lo. Dengan sistem yang sudah matang, lo tinggal fokus ke strategi jualan tanpa perlu pusing teknis.
-                    </p>
-                    <p class="text-white/50 leading-relaxed font-medium">
-                        Setiap baris kode dan elemen marketing dalam paket ini dibuat dengan standar tinggi untuk memastikan konversi penjualan yang maksimal bagi setiap reseller.
-                    </p>
+                <div id="prod-long-desc" class="prose prose-invert max-w-none mb-16 text-white/50 leading-relaxed font-medium">
+                    <div class="skeleton w-full h-4 mb-3"></div>
+                    <div class="skeleton w-full h-4 mb-3"></div>
+                    <div class="skeleton w-2/3 h-4"></div>
                 </div>
 
-                <h3 class="text-lg font-black font-title mb-8 opacity-30 tracking-[0.2em]">Apa yang lo dapetin?</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <h4 class="font-black text-sm mb-2 text-brand-purple">Source code lengkap</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Akses penuh ke semua baris kode tanpa dienkripsi, bebas modifikasi.</p>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <h4 class="font-black text-sm mb-2 text-brand-pink">Marketing kit ready</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Banner promosi, copywriting, dan aset visual untuk jualan lo.</p>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <h4 class="font-black text-sm mb-2 text-brand-orange">Grup support eksklusif</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Akses ke komunitas khusus para owner untuk diskusi strategi bisnis.</p>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <h4 class="font-black text-sm mb-2 text-brand-blue">Video instalasi</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Panduan langkah demi langkah cara pasang sistem di hosting lo sendiri.</p>
-                    </div>
+                <h3 class="text-lg font-black font-title mb-8 opacity-30 tracking-[0.2em] uppercase">Apa yang lo dapetin?</h3>
+                <div id="prod-get" class="grid md:grid-cols-2 gap-6">
+                    <div class="skeleton w-full h-24 rounded-2xl"></div>
+                    <div class="skeleton w-full h-24 rounded-2xl"></div>
                 </div>
             </div>
 
             <!-- Benefit Tab -->
             <div id="content-benefit" class="tab-content hidden animate-in">
                 <h2 class="text-2xl font-black font-title mb-8 highlight-text">Keuntungan buat lo</h2>
-                <div class="space-y-6">
-                    <div class="flex gap-5 border-b border-white/5 pb-6">
-                        <div class="w-1.5 h-6 bg-brand-purple rounded-full"></div>
-                        <div>
-                            <p class="font-bold text-base mb-1">Hemat waktu dan biaya</p>
-                            <p class="text-xs text-white/40 leading-relaxed">Lo gak perlu lagi ngabisin waktu berbulan-bulan cuma buat riset produk dan ngebangun sistem dari awal.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-5 border-b border-white/5 pb-6">
-                        <div class="w-1.5 h-6 bg-brand-pink rounded-full"></div>
-                        <div>
-                            <p class="font-bold text-base mb-1">Profit milik lo 100%</p>
-                            <p class="text-xs text-white/40 leading-relaxed">Beda sama sistem affiliasi, setiap rupiah yang masuk dari pembeli lo adalah hak milik lo sepenuhnya.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-5 border-b border-white/5 pb-6">
-                        <div class="w-1.5 h-6 bg-brand-orange rounded-full"></div>
-                        <div>
-                            <p class="font-bold text-base mb-1">Branding makin pro</p>
-                            <p class="text-xs text-white/40 leading-relaxed">Punya produk digital berkualitas bikin nama bisnis lo makin terpercaya di mata pembeli.</p>
-                        </div>
-                    </div>
+                <div id="prod-benefits" class="space-y-6">
+                    <!-- Injected via JS -->
                 </div>
             </div>
 
             <!-- Fitur Tab -->
             <div id="content-fitur" class="tab-content hidden animate-in">
                 <h2 class="text-2xl font-black font-title mb-8 highlight-text">Fitur utama paket</h2>
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div class="space-y-4">
-                        <h4 class="font-black text-sm text-brand-purple">Panel kontrol admin</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Kelola member dan data pembeli lo dengan satu dashboard yang sangat simpel dan mudah dipahami.</p>
-                    </div>
-                    <div class="space-y-4">
-                        <h4 class="font-black text-sm text-brand-pink">Sistem lisensi otomatis</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Memberikan akses secara otomatis setelah pembayaran terverifikasi tanpa lo harus kirim manual.</p>
-                    </div>
-                    <div class="space-y-4">
-                        <h4 class="font-black text-sm text-brand-orange">Laporan penjualan real-time</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Pantau pertumbuhan bisnis lo setiap detik melalui grafik laporan yang sangat akurat.</p>
-                    </div>
-                    <div class="space-y-4">
-                        <h4 class="font-black text-sm text-brand-blue">Integrasi sistem pembayaran</h4>
-                        <p class="text-xs text-white/40 leading-relaxed">Mendukung berbagai metode pembayaran populer untuk memudahkan pembeli lo checkout.</p>
-                    </div>
+                <div id="prod-features" class="grid md:grid-cols-2 gap-8">
+                    <!-- Injected via JS -->
                 </div>
             </div>
 
             <!-- FAQ Tab -->
             <div id="content-faq" class="tab-content hidden animate-in">
                 <h2 class="text-2xl font-black font-title mb-8 highlight-text">Tanya jawab produk</h2>
-                <div class="space-y-6">
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <p class="font-bold text-xs mb-3 text-white">Apakah butuh keahlian coding?</p>
-                        <p class="text-xs text-white/40 leading-relaxed">Nggak perlu bro. Udah ada panduan lengkap dan sistemnya tinggal install aja di hosting.</p>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <p class="font-bold text-xs mb-3 text-white">Apa bisa minta bantuan instalasi?</p>
-                        <p class="text-xs text-white/40 leading-relaxed">Bisa banget, tim support kita siap bantu lo kalau ada kendala teknis saat setup pertama kali.</p>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
-                        <p class="font-bold text-xs mb-3 text-white">Apakah ada biaya berlangganan?</p>
-                        <p class="text-xs text-white/40 leading-relaxed">Sekali beli dapet akses selamanya. No hidden fees, no recurring cost.</p>
-                    </div>
+                <div id="prod-faqs" class="space-y-6">
+                    <!-- Injected via JS -->
                 </div>
             </div>
 
@@ -273,9 +228,9 @@
             
             <div class="flex flex-col lg:flex-row gap-16 items-center">
                 <div class="flex-1 text-center lg:text-left">
-                    <h2 class="text-3xl md:text-4xl font-black font-title mb-4 text-brand-pink">Lisensi reseller right</h2>
+                    <h2 class="text-3xl md:text-4xl font-black font-title mb-4 text-brand-pink uppercase tracking-tight">Lisensi reseller right</h2>
                     <p class="text-white/50 text-base leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0 font-medium">
-                        Produk ini dilindungi lisensi resmi. Lo bukan cuma beli produk, tapi beli hak untuk membangun aset digital lo sendiri.
+                        Produk ini dilindungi lisensi resmi. Lo bukan cuma beli produk, tapi beli hak untuk membangun aset digital lo sendiri sesuai standar ecosystem.
                     </p>
                     
                     <div class="grid sm:grid-cols-2 gap-4">
@@ -305,7 +260,6 @@
                             <p class="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-2">Verified security</p>
                             <p class="text-sm font-bold">Produk aman & bebas malware</p>
                         </div>
-                        <button class="w-full py-4 glass border-white/10 hover:bg-white/5 rounded-2xl text-[10px] font-black tracking-widest uppercase">Download license pdf</button>
                     </div>
                 </div>
             </div>
@@ -317,7 +271,7 @@
         <div class="max-w-7xl mx-auto px-6 text-center">
             <img src="https://imersnesia.com/wp-content/uploads/2026/05/logoresellerrightfinal.png" alt="Logo" class="w-24 mx-auto mb-10 drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]">
             <p class="text-[12px] font-black tracking-[0.4em] opacity-40 uppercase mb-4 font-title">© 2026 Produk Reseller Right • Ecosystem iMersFireship.</p>
-            <p class="text-xs text-white/30 mb-12 max-w-md mx-auto font-body font-medium leading-relaxed italic-none">Ikuti harga pusat, jaga sistem, jual dengan waras. Solusi tepat untuk bisnis produk digital tanpa batas.</p>
+            <p class="text-xs text-white/30 mb-12 max-w-md mx-auto font-body font-medium leading-relaxed">Ikuti harga pusat, jaga sistem, jual dengan waras. Solusi tepat untuk bisnis produk digital tanpa batas.</p>
             
             <div class="flex flex-wrap justify-center gap-8 md:gap-12 pt-10 border-t border-white/5 font-title">
                 <a href="#" class="text-[11px] font-bold hover:text-brand-blue transition tracking-wider uppercase">Imersnesia.com</a>
@@ -327,36 +281,211 @@
         </div>
     </footer>
 
+    <!-- DYNAMIC FETCH API SCRIPT -->
     <script>
+        // Inisialisasi Icons
         lucide.createIcons();
 
-        // Tab Switching Logic
-        function switchTab(tabId) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            // Remove active from all buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        // Endpoint Web Apps Apps Script Lo
+        const API_URL = "https://script.google.com/macros/s/AKfycbwZ3r3GaNXAXHv2y4w5kNKVQPLs5CE13LhfWP3CfkMdt21xDx1Wj1GLoXsNrjAKLDJ_/exec";
 
-            // Show active content
+        // Logic Fetching Data
+        async function fetchProductDetails() {
+            // Ambil parameter ID dari URL (contoh: single-product.html?id=1)
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                renderErrorState("URL tidak valid. ID Produk tidak ditemukan.");
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Cari produk berdasarkan ID yang di URL
+                    const product = data.data.products.find(p => p.id.toString() === productId);
+                    
+                    if (product) {
+                        renderProduct(product);
+                    } else {
+                        renderErrorState(`Produk dengan ID #${productId} tidak ditemukan di database.`);
+                    }
+                } else {
+                    renderErrorState("Gagal menghubungi server database.");
+                }
+            } catch (error) {
+                console.error("Fetch Error: ", error);
+                renderErrorState("Terjadi kesalahan jaringan.");
+            }
+        }
+
+        // Logic Rendering ke HTML
+        function renderProduct(p) {
+            // --- HEADER & HERO ---
+            document.getElementById('page-title').innerText = `${p.name} - Reseller Rights`;
+            
+            // Format Title biar keren (highlight kata pertama kalau bisa)
+            const words = p.name.split(" ");
+            let formattedName = p.name;
+            if(words.length > 1) {
+                formattedName = `<span class="highlight-text">${words[0]}</span> ${words.slice(1).join(" ")}`;
+            } else {
+                formattedName = `<span class="highlight-text">${p.name}</span>`;
+            }
+            
+            document.getElementById('prod-name').innerHTML = formattedName;
+            document.getElementById('prod-desc').innerText = p.desc || "Tidak ada deskripsi singkat.";
+            document.getElementById('prod-price').innerText = p.price || "Gratis / Hubungi Admin";
+            
+            // Gambar Hero
+            const imgEl = document.getElementById('prod-image');
+            const skeletonEl = document.getElementById('prod-img-skeleton');
+            if(p.image_url) {
+                imgEl.src = p.image_url;
+                imgEl.onload = () => {
+                    skeletonEl.classList.add('hidden');
+                    imgEl.classList.remove('hidden');
+                };
+            } else {
+                skeletonEl.classList.add('hidden');
+            }
+
+            // Tombol Checkout
+            const btnCheckout = document.getElementById('prod-checkout');
+            if(p.urlCheckout) {
+                btnCheckout.href = p.urlCheckout;
+                btnCheckout.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                btnCheckout.innerText = "Link Checkout Kosong";
+            }
+
+            // --- TAB DESKRIPSI ---
+            if(p.long_desc) {
+                // Konversi newline (\n) ke tag <br>
+                const formattedLongDesc = p.long_desc.replace(/\n/g, '<br>');
+                document.getElementById('prod-long-desc').innerHTML = `<p>${formattedLongDesc}</p>`;
+            } else {
+                document.getElementById('prod-long-desc').innerHTML = '<p>Detail deskripsi tidak tersedia.</p>';
+            }
+
+            // --- TAB GET (Apa yang lo dapetin) ---
+            if(p.get) {
+                const getItems = p.get.split('|').filter(i => i.trim() !== "");
+                const colors = ['brand-purple', 'brand-pink', 'brand-orange', 'brand-blue'];
+                let getHtml = "";
+                getItems.forEach((item, index) => {
+                    const clr = colors[index % colors.length];
+                    getHtml += `
+                        <div class="p-6 rounded-2xl bg-white/2 border border-white/5 flex items-center gap-4">
+                            <i data-lucide="package-check" class="text-${clr} w-6 h-6 shrink-0"></i>
+                            <h4 class="font-black text-sm text-${clr} uppercase tracking-wider">${item.trim()}</h4>
+                        </div>
+                    `;
+                });
+                document.getElementById('prod-get').innerHTML = getHtml;
+            } else {
+                document.getElementById('prod-get').innerHTML = '<p class="text-white/40">Data tidak tersedia.</p>';
+            }
+
+            // --- TAB BENEFIT ---
+            if(p.benefits) {
+                const benefitItems = p.benefits.split('|').filter(i => i.trim() !== "");
+                const colors = ['bg-brand-purple', 'bg-brand-pink', 'bg-brand-orange', 'bg-brand-blue'];
+                let benHtml = "";
+                benefitItems.forEach((item, index) => {
+                    const clr = colors[index % colors.length];
+                    benHtml += `
+                        <div class="flex gap-5 border-b border-white/5 pb-6">
+                            <div class="w-1.5 h-6 ${clr} rounded-full shrink-0 mt-1"></div>
+                            <div>
+                                <p class="font-bold text-base mb-1">${item.trim()}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('prod-benefits').innerHTML = benHtml;
+            } else {
+                document.getElementById('prod-benefits').innerHTML = '<p class="text-white/40">Data tidak tersedia.</p>';
+            }
+
+            // --- TAB FITUR ---
+            if(p.features) {
+                const featItems = p.features.split('|').filter(i => i.trim() !== "");
+                const txtColors = ['text-brand-purple', 'text-brand-pink', 'text-brand-orange', 'text-brand-blue'];
+                let featHtml = "";
+                featItems.forEach((item, index) => {
+                    const clr = txtColors[index % txtColors.length];
+                    featHtml += `
+                        <div class="flex gap-4 p-5 bg-white/5 border border-white/10 rounded-2xl items-start">
+                            <i data-lucide="check-circle" class="w-5 h-5 shrink-0 ${clr} mt-0.5"></i>
+                            <h4 class="font-bold text-sm ${clr} leading-relaxed">${item.trim()}</h4>
+                        </div>
+                    `;
+                });
+                document.getElementById('prod-features').innerHTML = featHtml;
+            } else {
+                document.getElementById('prod-features').innerHTML = '<p class="text-white/40">Data tidak tersedia.</p>';
+            }
+
+            // --- TAB FAQ ---
+            if(p.faqs) {
+                // Asumsi format: Tanya|Jawab|Tanya|Jawab
+                const faqItems = p.faqs.split('|').filter(i => i.trim() !== "");
+                let faqHtml = "";
+                for(let i = 0; i < faqItems.length; i += 2) {
+                    const pertanyaan = faqItems[i];
+                    const jawaban = faqItems[i+1] || "Silakan hubungi support.";
+                    faqHtml += `
+                        <div class="p-6 rounded-2xl bg-white/2 border border-white/5">
+                            <div class="flex gap-3 mb-3">
+                                <i data-lucide="help-circle" class="w-4 h-4 text-brand-orange mt-0.5 shrink-0"></i>
+                                <p class="font-bold text-sm text-white">${pertanyaan.trim()}</p>
+                            </div>
+                            <p class="text-xs text-white/40 leading-relaxed ml-7">${jawaban.trim()}</p>
+                        </div>
+                    `;
+                }
+                document.getElementById('prod-faqs').innerHTML = faqHtml;
+            } else {
+                document.getElementById('prod-faqs').innerHTML = '<p class="text-white/40">Data FAQ tidak tersedia.</p>';
+            }
+
+            // Render ulang ikon Lucide setelah elemen HTML disuntikkan via JS
+            lucide.createIcons();
+        }
+
+        // Render Error / Not Found
+        function renderErrorState(msg) {
+            document.getElementById('prod-name').innerHTML = `<span class="text-red-500">Error!</span>`;
+            document.getElementById('prod-desc').innerText = msg;
+            document.getElementById('prod-img-skeleton').classList.add('hidden');
+        }
+
+        // --- Tab Logic ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('content-' + tabId).classList.remove('hidden');
-            // Set active button
             document.getElementById('btn-' + tabId).classList.add('active');
         }
 
+        // --- Navbar Scroll ---
         window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
+            const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                nav.classList.add('py-2', 'shadow-2xl');
+                nav.classList.add('py-2', 'shadow-2xl', 'bg-brand-dark/90', 'backdrop-blur-xl');
                 nav.classList.remove('py-4');
             } else {
                 nav.classList.add('py-4');
-                nav.classList.remove('py-2', 'shadow-2xl');
+                nav.classList.remove('py-2', 'shadow-2xl', 'bg-brand-dark/90', 'backdrop-blur-xl');
             }
         });
+
+        // Panggil fungsi saat web di load
+        window.onload = fetchProductDetails;
     </script>
 </body>
 </html>
