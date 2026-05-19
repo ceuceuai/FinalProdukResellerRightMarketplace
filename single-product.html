@@ -130,10 +130,10 @@
             <!-- Left: Mockup Image -->
             <div class="relative group">
                 <div class="absolute inset-0 bg-brand-purple/20 blur-[100px] rounded-full"></div>
-                <div class="relative glass rounded-[40px] p-4 border-white/10 shadow-2xl overflow-hidden aspect-square flex items-center justify-center">
+                <div class="relative glass rounded-[40px] p-6 border-white/10 shadow-2xl overflow-hidden aspect-square flex items-center justify-center">
                     <!-- Placeholder skeleton while loading -->
                     <div id="prod-img-skeleton" class="absolute inset-0 skeleton"></div>
-                    <img id="prod-image" src="" alt="Mockup Produk" class="w-4/5 h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hidden relative z-10 transition-opacity duration-500">
+                    <img id="prod-image" src="" alt="Mockup Produk" class="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hidden relative z-10 transition-opacity duration-500">
                 </div>
             </div>
 
@@ -297,10 +297,9 @@
     <footer class="pt-24 pb-32 md:pb-12 glass border-t border-white/5 rounded-t-[70px]">
         <div class="max-w-7xl mx-auto px-6 text-center">
             
-            <!-- DYNAMIC LOGO -->
+            <!-- DYNAMIC LOGO (Fixed Skeleton Loader) -->
             <div class="w-24 h-24 mx-auto mb-10 bg-white/5 rounded-3xl flex items-center justify-center p-2 border border-white/10 shadow-xl overflow-hidden relative">
-                <div id="footer-logo-skeleton" class="absolute inset-0 skeleton"></div>
-                <img id="footer-logo" src="" alt="Company Logo" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(168,85,247,0.4)] hidden transition-opacity duration-300 relative z-10">
+                <img id="footer-logo" src="https://imersnesia.com/wp-content/uploads/2026/05/logoresellerrightfinal.png" alt="Company Logo" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(168,85,247,0.4)] relative z-10">
             </div>
 
             <p id="footer-copyright" class="text-[10px] font-black tracking-[0.1em] opacity-40 uppercase mb-4 font-title">© 2026 Produk Reseller Right • Ecosystem iMersFireship.</p>
@@ -578,13 +577,8 @@
         function renderCompanyInfo(info) {
             if(info.logo_url) {
                 const logoEl = document.getElementById('footer-logo');
-                const skeleton = document.getElementById('footer-logo-skeleton');
-                if(logoEl && skeleton) {
+                if(logoEl) {
                     logoEl.src = info.logo_url;
-                    logoEl.onload = () => {
-                        skeleton.classList.add('hidden');
-                        logoEl.classList.remove('hidden');
-                    };
                 }
 
                 // Update Header Logo juga!
