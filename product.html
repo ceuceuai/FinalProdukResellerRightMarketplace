@@ -189,6 +189,7 @@
 
                 if (result.status === 'success') {
                     const products = result.data.products;
+                    const products = allProducts.filter(p => p.is_featured === 'TRUE');
                     container.innerHTML = ""; // Bersihkan skeleton loading
 
                     if (products.length === 0) {
