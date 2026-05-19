@@ -188,27 +188,30 @@
         const result = await response.json();
 
         if (result.status === 'success') {
-            // Mengambil semua produk dari API
             const allProducts = result.data.products;
-            // Melakukan filter berdasarkan produk unggulan
-            const products = allProducts.filter(p => p.is_featured === 'TRUE');
             
-            container.innerHTML = ""; // Bersihkan skeleton loading
+            // Perbaikan Logika Filter:
+            // Mengecek apakah is_featured adalah string "TRUE" atau boolean true
+            const products = allProducts.filter(p => {
+                const isFeatured = p.is_featured;
+                return isFeatured === 'TRUE' || isFeatured === true;
+            });
+            
+            container.innerHTML = ""; 
 
             if (products.length === 0) {
-                container.innerHTML = '<p class="col-span-full text-center text-white/30 text-sm py-10 uppercase tracking-widest font-bold">Belum ada produk di database.</p>';
+                container.innerHTML = '<p class="col-span-full text-center text-white/30 text-sm py-10 uppercase tracking-widest font-bold">Belum ada produk unggulan di database.</p>';
                 updateStatus('Tidak ada data', 'text-white/40', 'database');
                 return;
             }
 
-            // Loop & Render Produk
             products.forEach(p => {
                 const imgSource = p.image_url ? p.image_url : "https://via.placeholder.com/400x400/0f172a/ffffff?text=No+Image";
                 
                 container.innerHTML += `
                     <div class="glass rounded-[32px] p-6 border-white/5 hover:border-brand-purple/30 transition-all flex flex-col group shadow-lg">
                         <div class="aspect-square bg-white/5 rounded-2xl mb-6 flex items-center justify-center border border-white/5 overflow-hidden relative">
-                            <img src="${imgSource}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="${imgSource}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/400x400/0f172a/ffffff?text=Error'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
                             <div class="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
                                  <div class="text-[9px] font-black text-brand-orange uppercase tracking-[0.3em] flex items-center gap-1">
@@ -236,7 +239,9 @@
             });
 
             updateStatus('Database Terhubung', 'text-emerald-500', 'check-circle');
-            lucide.createIcons(); // Render ulang icon setelah HTML diinject
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        } else {
+            throw new Error("Status API bukan success");
         }
     } catch (error) {
         console.error("Gagal menarik data:", error);
