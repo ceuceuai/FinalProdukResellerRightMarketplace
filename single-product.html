@@ -93,7 +93,6 @@
             background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
-            border-radius: 8px;
         }
         @keyframes loading {
             0% { background-position: 200% 0; }
@@ -130,10 +129,10 @@
             <!-- Left: Mockup Image -->
             <div class="relative group">
                 <div class="absolute inset-0 bg-brand-purple/20 blur-[100px] rounded-full"></div>
-                <div class="relative glass rounded-[40px] p-6 border-white/10 shadow-2xl overflow-hidden aspect-square flex items-center justify-center">
+                <div class="relative glass rounded-[40px] p-3 border-white/10 shadow-2xl overflow-hidden aspect-square flex items-center justify-center">
                     <!-- Placeholder skeleton while loading -->
-                    <div id="prod-img-skeleton" class="absolute inset-0 skeleton"></div>
-                    <img id="prod-image" src="" alt="Mockup Produk" class="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hidden relative z-10 transition-opacity duration-500">
+                    <div id="prod-img-skeleton" class="absolute inset-0 skeleton m-3 rounded-[28px]"></div>
+                    <img id="prod-image" src="" alt="Mockup Produk" class="w-full h-full object-cover rounded-[28px] shadow-xl hidden relative z-10 transition-opacity duration-500">
                 </div>
             </div>
 
@@ -144,12 +143,12 @@
                 </div>
                 
                 <h1 id="prod-name" class="text-4xl md:text-5xl lg:text-6xl font-black font-title mb-6 leading-tight tracking-tighter">
-                    <span class="skeleton text-transparent">Memuat Data Produk...</span>
+                    <span class="skeleton rounded-lg text-transparent">Memuat Data Produk...</span>
                 </h1>
                 
                 <p id="prod-desc" class="text-white/50 text-lg font-medium leading-relaxed mb-10 min-h-[60px]">
-                    <span class="skeleton block w-full h-4 mb-2"></span>
-                    <span class="skeleton block w-3/4 h-4"></span>
+                    <span class="skeleton rounded-lg block w-full h-4 mb-2"></span>
+                    <span class="skeleton rounded-lg block w-3/4 h-4"></span>
                 </p>
 
                 <!-- Pricing & Action -->
@@ -157,7 +156,7 @@
                     <div>
                         <p class="text-[10px] font-black opacity-30 mb-1 tracking-widest uppercase">Harga investasi</p>
                         <p id="prod-price" class="text-3xl font-black font-title text-brand-pink">
-                            <span class="skeleton text-transparent">Rp 000.000</span>
+                            <span class="skeleton rounded-lg text-transparent">Rp 000.000</span>
                         </p>
                     </div>
                     <a id="prod-checkout" href="#" target="_blank" class="w-full sm:w-auto px-10 py-5 rounded-2xl btn-gradient text-white font-black text-xs tracking-widest flex items-center justify-center gap-3 shadow-lg uppercase transition-all opacity-50 pointer-events-none">
@@ -201,9 +200,9 @@
             <div id="content-deskripsi" class="tab-content block animate-in">
                 <h2 class="text-2xl font-black font-title mb-8 highlight-text">Tentang produk ini</h2>
                 <div id="prod-long-desc" class="prose prose-invert max-w-none mb-16 text-white/50 leading-relaxed font-medium">
-                    <div class="skeleton w-full h-4 mb-3"></div>
-                    <div class="skeleton w-full h-4 mb-3"></div>
-                    <div class="skeleton w-2/3 h-4"></div>
+                    <div class="skeleton rounded-lg w-full h-4 mb-3"></div>
+                    <div class="skeleton rounded-lg w-full h-4 mb-3"></div>
+                    <div class="skeleton rounded-lg w-2/3 h-4"></div>
                 </div>
 
                 <h3 class="text-lg font-black font-title mb-8 opacity-30 tracking-[0.2em] uppercase">Apa yang lo dapetin?</h3>
@@ -557,13 +556,13 @@
                 const priceTxt = p.price || "Gratis / Hubungi Admin";
 
                 htmlContent += `
-                    <a href="single-product.html?id=${p.id}" class="group block p-6 rounded-[30px] glass border-white/5 hover:border-brand-purple/30 transition-all duration-300 hover:-translate-y-2 shadow-lg">
-                        <div class="w-full aspect-square rounded-[20px] bg-white/5 mb-6 flex items-center justify-center p-4 overflow-hidden relative">
+                    <a href="single-product.html?id=${p.id}" class="group block p-5 rounded-[32px] glass border-white/5 hover:border-brand-purple/30 transition-all duration-300 hover:-translate-y-2 shadow-lg">
+                        <div class="w-full aspect-square rounded-[24px] glass mb-6 flex items-center justify-center p-2 overflow-hidden relative">
                             <div class="absolute inset-0 bg-brand-purple/10 blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <img src="${imageSrc}" alt="${p.name}" class="w-4/5 h-auto object-contain group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">
+                            <img src="${imageSrc}" alt="${p.name}" class="w-full h-full object-cover rounded-[16px] group-hover:scale-110 transition-transform duration-500 relative z-10 shadow-md">
                         </div>
-                        <h3 class="font-black font-title text-lg mb-2 truncate group-hover:text-brand-blue transition-colors">${p.name}</h3>
-                        <p class="text-brand-pink font-bold text-sm tracking-widest">${priceTxt}</p>
+                        <h3 class="font-black font-title text-lg mb-2 px-2 truncate group-hover:text-brand-blue transition-colors">${p.name}</h3>
+                        <p class="text-brand-pink font-bold text-sm tracking-widest px-2">${priceTxt}</p>
                     </a>
                 `;
             });
